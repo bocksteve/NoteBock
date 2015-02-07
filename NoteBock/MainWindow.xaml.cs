@@ -24,5 +24,10 @@ namespace NoteBock
         {
             InitializeComponent();
         }
+
+        private void MainMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

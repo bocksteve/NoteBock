@@ -2,7 +2,31 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="NoteBock" Height="350" Width="525">
-    <Grid>
-        
+    <Grid Background="#FFA29F9F">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="117*"/>
+            <ColumnDefinition Width="400*"/>
+        </Grid.ColumnDefinitions>
+        <Menu HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <MenuItem x:Name="MainMenu" Header="Menu" Click="MainMenu_Click">
+                <MenuItem x:Name="CrtSem" Header="Create Semester"/>
+                <MenuItem x:Name="LoadSem" Header="Load Semester"/>
+                <Separator/>
+                <MenuItem x:Name="AddCls" Header="Add Class"/>
+                <MenuItem x:Name="RemCls" Header="Remove Class"/>
+                <Separator/>
+                <MenuItem x:Name="AddAss" Header="Add Assignment/Exam"/>
+                <MenuItem x:Name="RemAss" Header="Remove Assignment/Exam"/>
+                <Separator/>
+                <MenuItem x:Name="BegNts" Header="Begin Notes"/>
+                <MenuItem x:Name="SrchNts" Header="Search Notes"/>
+                <Separator/>
+                <MenuItem x:Name="Save" Header="Save"/>
+                <MenuItem x:Name="Exit" Header="Exit"/>
+            </MenuItem>
+        </Menu>
+        <TreeView HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="130" Margin="7,27,0,0" Grid.ColumnSpan="2">
+            <TreeViewItem x:Name="Test1" Header="Test1"/>
+        </TreeView>
     </Grid>
 </Window>
