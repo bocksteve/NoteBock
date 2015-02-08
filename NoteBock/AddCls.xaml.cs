@@ -43,6 +43,14 @@ namespace NoteBock
             InitializeComponent();
         }
 
+        public bool closedwithok = false;
+
+        public void Closing()
+        {
+            closedwithok = true;
+            this.Close();
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -78,7 +86,7 @@ namespace NoteBock
                 {
                     _days.Add("Friday");
                 }
-                this.Close();
+                Closing();
             }
         }
     }

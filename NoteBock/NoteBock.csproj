@@ -53,13 +53,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddAss.xaml.cs">
+      <DependentUpon>AddAss.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddCls.xaml.cs">
       <DependentUpon>AddCls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Day.cs" />
     <Compile Include="Semester.cs" />
     <Compile Include="SemInput.xaml.cs">
       <DependentUpon>SemInput.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddAss.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddCls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

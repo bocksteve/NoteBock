@@ -21,21 +21,18 @@
                 <MenuItem x:Name="RemAss" Header="Remove Assignment/Exam" Click="RemAssClick"/>
                 <Separator/>
                 <MenuItem x:Name="BegNts" Header="Begin Notes" Click="BegNtsClick"/>
+                <MenuItem x:Name="SaveNts" Header="Save Notes" Click="SaveNtsClick"/>
                 <MenuItem x:Name="SrchNts" Header="Search Notes" Click="SrchNtsClick"/>
                 <Separator/>
                 <MenuItem x:Name="Save" Header="Save" Click="SaveClick"/>
                 <MenuItem x:Name="Exit" Header="Exit" Click="ExitClick"/>
             </MenuItem>
         </Menu>
-        <TreeView x:Name="Tree" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="181" Margin="10,27,0,124">
+        <TreeView x:Name="Tree" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="181" Margin="10,27,0,124" MouseLeftButtonUp="TreeClicked">
         </TreeView>
         <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="109" TextWrapping="Wrap" Text="Upcoming Assignments/Exams listed here" VerticalAlignment="Bottom" Width="181" Margin="10,0,0,10"/>
-        <RichTextBox Margin="196,26,10,11" HorizontalScrollBarVisibility="Disabled">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
-                </Paragraph>
-            </FlowDocument>
+        <RichTextBox x:Name="LargeTxt" Margin="196,26,10,11" HorizontalScrollBarVisibility="Disabled">
+            <FlowDocument/>
         </RichTextBox>
     </Grid>
 </Window>

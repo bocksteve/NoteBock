@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,23 @@ namespace NoteBock
             InitializeComponent();
         }
 
+        public string Removefromdatestring(string temp)
+        {
+            //used to remove "/" from date strings so we can use them for treeviewitem names
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (temp[i] == '/')
+                {
+                    temp = temp.Remove(i, 1);
+                }
+                else if (temp [i] == ' ')
+                {
+                    temp = temp.Remove(i, 1);
+                }
+            }
+            return temp;
+        }
+
         private void MainMenu_Click(object sender, RoutedEventArgs e)
         {
             //TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
@@ -45,7 +63,7 @@ namespace NoteBock
             if (newWindow.closedwithok == true)
             {
                 //Create the tree item and add it
-                TreeViewItem newS = new TreeViewItem() { Header = newWindow.SemName, Name = "sem_" + newWindow.SemName };
+                TreeViewItem newS = new TreeViewItem() { Header = newWindow.SemName, Name = "sem_" + Removefromdatestring(newWindow.SemName) };
                 Tree.Items.Add(newS);
 
                 //Create Semester object, add it to the arraylist
@@ -77,6 +95,22 @@ namespace NoteBock
 
         private void RemSemClick(object sender, RoutedEventArgs e)
         {
+            //Have to have selected a semester to click this menu option
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
+
+            //Find the semester in the ArrayList Sems, then delete it
+            for (int i = 0; i < Sems.Count; i++)
+            {
+                Semester sem = (Semester)Sems[i];
+                if (cur.Name.Contains(sem.Name))
+                {
+                    Sems.Remove(Sems[i]);
+                    sem = null;
+                }
+            }
+
+            //Remove the semester (and all its children) from the tree
+            Tree.Items.Remove(cur);
 
         }
 
@@ -86,22 +120,29 @@ namespace NoteBock
             var newWindow = new AddCls();
             newWindow.ShowDialog();
 
+            //If it wasn't closed with ok, just return and do nothing
+            if (newWindow.closedwithok == false)
+            {
+                return;
+            }
             //Must have selected a semester to even click this button, record which semester and create new class
             TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
-            TreeViewItem newCls = new TreeViewItem() { Header = newWindow.ClsName, Name = "cls_" + newWindow.ClsName };
-            cur.Items.Add(newCls);
 
-            //Look for Semester to get dates
+            //Look for Semester
             for (int i = 0; i < Sems.Count; i++)
             {
                 Semester sem = (Semester)Sems[i];
                 if (cur.Name.Contains(sem.Name))
                 {
-                    //Found semester
+                    //Found semester, add the new class
+                    TreeViewItem newCls = new TreeViewItem() { Header = newWindow.ClsName, Name = "cls_" + Removefromdatestring(newWindow.ClsName) + "_" + sem.Name };
+                    cur.Items.Add(newCls);
+                    Class1 newcls = new Class1(newWindow.ClsName);
+                    sem.AddClass(newcls);
                     for (int j = 0; j < sem.weeks; j++)
                     {
                         //Add Week i for every week of classes for semester
-                        //Each item is named "week_x-SemName"
+                        //Each item is named "week_x"
                         TreeViewItem week = new TreeViewItem() { Header = "Week " + (j + 1), Name = "week_" + (j + 1) };
                         newCls.Items.Add(week);
                         for (int h = 0; h < newWindow.Days.Count; h++)
@@ -110,27 +151,32 @@ namespace NoteBock
                             if (newWindow.Days[h] == "Monday")
                             {
                                 DateTime dt = sem.Start.AddDays(1+(j*7));
-                                week.Items.Add(new TreeViewItem() { Header = (dt.Date) });
+                                week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
+                                newcls.AddDay(new Day(dt));
                             }
                             else if (newWindow.Days[h] == "Tuesday")
                             {
                                 DateTime dt = sem.Start.AddDays(2 + (j * 7));
-                                week.Items.Add(new TreeViewItem() { Header = (dt.Date) });
+                                week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
+                                newcls.AddDay(new Day(dt));
                             }
                             else if (newWindow.Days[h] == "Wednesday")
                             {
                                 DateTime dt = sem.Start.AddDays(3 + (j * 7));
-                                week.Items.Add(new TreeViewItem() { Header = (dt.Date) });
+                                week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
+                                newcls.AddDay(new Day(dt));
                             }
                             else if (newWindow.Days[h] == "Thursday")
                             {
                                 DateTime dt = sem.Start.AddDays(4 + (j * 7));
-                                week.Items.Add(new TreeViewItem() { Header = (dt.Date) });
+                                week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name});
+                                newcls.AddDay(new Day(dt));
                             }
                             else if (newWindow.Days[h] == "Friday")
                             {
                                 DateTime dt = sem.Start.AddDays(5 + (j * 7));
-                                week.Items.Add(new TreeViewItem() { Header = (dt.Date) });
+                                week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
+                                newcls.AddDay(new Day(dt));
                             }
                             
                         }
@@ -141,12 +187,84 @@ namespace NoteBock
 
         private void RemClsClick(object sender, RoutedEventArgs e)
         {
+            //Have to have class selected, remove class
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
+            TreeViewItem semester = new TreeViewItem();
+            //Find which semester this class belongs too
+            for (int i = 0; i < Sems.Count; i++)
+            {
+                Semester sem = (Semester)Sems[i];
+                if (cur.Name.Contains(sem.Name))
+                {
+                    foreach(TreeViewItem tvi in Tree.Items)
+                    {
+                        if (tvi.Header.ToString() == sem.Name)
+                        {
+                            semester = tvi;
+                            break;
+                        }
+                    }
+                    //Found correct semester, now find correct class
+                    for (int j = 0; j < sem.classes.Count; j++)
+                    {
+                        Class1 cls = (Class1)sem.classes[i];
+                        if (cur.Name.Contains(cls.Name))
+                        {
+                            sem.classes.Remove(cls);
+                            cls = null;
+                        }
+                    }
+                }
+            }
+            semester.Items.Remove(cur);
+
+ 
+
 
         }
 
         private void AddAssClick(object sender, RoutedEventArgs e)
         {
+            var newWindow = new AddAss();
+            newWindow.ShowDialog();
 
+            //If it wasn't closed with ok, just return and do nothing
+            if (newWindow.closedwithok == false)
+            {
+                return;
+            }
+
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
+
+            for (int i = 0; i < Sems.Count; i++)
+            {
+                //Find semester of cur
+                Semester sem = (Semester)Sems[i];
+                if (cur.Name.Contains(sem.Name))
+                {
+                    //Find class of cur
+                    for (int j = 0; j < sem.classes.Count; j++)
+                    {
+                        Class1 cls = (Class1)sem.classes[j];
+                        if (cur.Name.Contains(cls.Name))
+                        {
+                            //cur is a day, find it
+                            for (int h = 0; h < cls.days.Count; h++)
+                            {
+                                Day day = (Day)cls.days[h];
+                                if (Removefromdatestring(cur.Header.ToString()) == day.date)
+                                {
+                                    cur.Items.Add(new TreeViewItem() { Header = newWindow.AssName, Name = "ass_" + sem.Name + 
+                                        "_" + cls.Name + "_" + Removefromdatestring(day.date)});
+                                    day.AddAss(newWindow.AssName + ": " + newWindow.AssDesc);
+                                    return;
+                                    //stop iterating after adding the assignment
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void RemAssClick(object sender, RoutedEventArgs e)
@@ -156,7 +274,48 @@ namespace NoteBock
 
         private void BegNtsClick(object sender, RoutedEventArgs e)
         {
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
 
+            for (int i = 0; i < Sems.Count; i++)
+            {
+                //Find semester of cur
+                Semester sem = (Semester)Sems[i];
+                if (cur.Name.Contains(sem.Name))
+                {
+                    //Find class of cur
+                    for (int j = 0; j < sem.classes.Count; j++)
+                    {
+                        Class1 cls = (Class1)sem.classes[j];
+                        if (cur.Name.Contains(cls.Name))
+                        {
+                            //cur is a day, find it
+                            for (int h = 0; h < cls.days.Count; h++)
+                            {
+                                Day day = (Day)cls.days[h];
+                                if (Removefromdatestring(cur.Header.ToString()) == day.date)
+                                {
+                                    cur.Items.Add(new TreeViewItem()
+                                    {
+                                        Header = "Notes",
+                                        Name = "notes_" + sem.Name +
+                                            "_" + cls.Name + "_" + Removefromdatestring(day.date)
+                                    });
+                                    LargeTxt.SelectAll();
+                                    LargeTxt.Selection.Text = "";
+                                    TextRange t = new TextRange(LargeTxt.Document.ContentStart,
+                                        LargeTxt.Document.ContentEnd);
+                                    FileStream file = new FileStream("Notes_" + sem.Name + "_" + cls.Name + "_" 
+                                        + Removefromdatestring(day.date) + ".rtf", FileMode.Create);
+                                    t.Save(file, System.Windows.DataFormats.Rtf);
+                                    file.Close();
+                                    return;
+                                    //stop iterating after adding the assignment
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void SrchNtsClick(object sender, RoutedEventArgs e)
@@ -174,6 +333,96 @@ namespace NoteBock
 
         }
 
+        private void TreeClicked(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
+            if (cur == null)
+            {
+                return;
+            }
+            if (cur.Name.Contains("ass_"))
+            {
+                //Clicked on an assignment, display the description!
+                for (int i = 0; i < Sems.Count; i++)
+                {
+                    //Find semester of cur
+                    Semester sem = (Semester)Sems[i];
+                    if (cur.Name.Contains(sem.Name))
+                    {
+                        //Find class of cur
+                        for (int j = 0; j < sem.classes.Count; j++)
+                        {
+                            Class1 cls = (Class1)sem.classes[j];
+                            if (cur.Name.Contains(cls.Name))
+                            {
+                                //cur is a day, find it
+                                for (int h = 0; h < cls.days.Count; h++)
+                                {
+                                    Day day = (Day)cls.days[h];
+                                    if (cur.Name.Contains(day.date))
+                                    {
+                                        for (int z = 0; z < day.Assigns.Count; z++)
+                                        {
+                                            string assign = (string)day.Assigns[z];
+                                            if (assign.Contains(cur.Header.ToString()))
+                                            {
+                                                LargeTxt.SelectAll();
+                                                LargeTxt.Selection.Text = "";
+
+                                                LargeTxt.AppendText(assign);
+                                                return;
+                                            }
+                                        }
+ 
+                                        //stop iterating after displaying
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void SaveNtsClick(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
+
+            for (int i = 0; i < Sems.Count; i++)
+            {
+                //Find semester of cur
+                Semester sem = (Semester)Sems[i];
+                if (cur.Name.Contains(sem.Name))
+                {
+                    //Find class of cur
+                    for (int j = 0; j < sem.classes.Count; j++)
+                    {
+                        Class1 cls = (Class1)sem.classes[j];
+                        if (cur.Name.Contains(cls.Name))
+                        {
+                            //cur is a day, find it
+                            for (int h = 0; h < cls.days.Count; h++)
+                            {
+                                Day day = (Day)cls.days[h];
+                                if (cur.Name.Contains(day.date))
+                                {
+                                    TextRange t = new TextRange(LargeTxt.Document.ContentStart,
+                                        LargeTxt.Document.ContentEnd);
+                                    FileStream file = new FileStream("Notes_" + sem.Name + "_" + cls.Name + "_" 
+                                        + Removefromdatestring(day.date) + ".rtf", FileMode.Create);
+                                    t.Save(file, System.Windows.DataFormats.Rtf);
+                                    file.Close();
+                                    return;
+                                    //stop iterating after adding the assignment
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void OnSubmenuOpened(object sender, RoutedEventArgs e)
         {
             this.AddCls.IsEnabled = false;
@@ -182,12 +431,14 @@ namespace NoteBock
             this.AddAss.IsEnabled = false;
             this.RemAss.IsEnabled = false;
             this.BegNts.IsEnabled = false;
+            this.SaveNts.IsEnabled = false;
             TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
             if (cur != null)
             {
                 if (cur.Name.StartsWith("sem_"))
                 {
                     this.AddCls.IsEnabled = true;
+                    this.RemSem.IsEnabled = true;
                 }
                 if (cur.Name.StartsWith("cls_"))
                 {
@@ -197,6 +448,10 @@ namespace NoteBock
                 {
                     this.BegNts.IsEnabled = true;
                     this.AddAss.IsEnabled = true;
+                }
+                if (cur.Name.StartsWith("notes"))
+                {
+                    this.SaveNts.IsEnabled = true;
                 }
             }
         }
