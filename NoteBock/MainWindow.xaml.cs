@@ -34,11 +34,7 @@ namespace NoteBock
             //used to remove "/" from date strings so we can use them for treeviewitem names
             for (int i = 0; i < temp.Length; i++)
             {
-                if (temp[i] == '/')
-                {
-                    temp = temp.Remove(i, 1);
-                }
-                else if (temp [i] == ' ')
+                if ((int)temp[i] < 48 && 31 < (int)temp[i])
                 {
                     temp = temp.Remove(i, 1);
                 }
@@ -257,6 +253,8 @@ namespace NoteBock
                                     cur.Items.Add(new TreeViewItem() { Header = newWindow.AssName, Name = "ass_" + sem.Name + 
                                         "_" + cls.Name + "_" + Removefromdatestring(day.date)});
                                     day.AddAss(newWindow.AssName + ": " + newWindow.AssDesc);
+                                    sem.DueDates.Add(day.dt);
+                                    sem.DueDates.Add(newWindow.AssName);
                                     return;
                                     //stop iterating after adding the assignment
                                 }
@@ -294,12 +292,15 @@ namespace NoteBock
                                 Day day = (Day)cls.days[h];
                                 if (Removefromdatestring(cur.Header.ToString()) == day.date)
                                 {
-                                    cur.Items.Add(new TreeViewItem()
+                                    TreeViewItem newtvi = new TreeViewItem()
                                     {
                                         Header = "Notes",
-                                        Name = "notes_" + sem.Name +
+                                        Name = "Notes_" + sem.Name +
                                             "_" + cls.Name + "_" + Removefromdatestring(day.date)
-                                    });
+                                    };
+                                    cur.Items.Add(newtvi);
+                                    cur.IsExpanded = true;
+                                    newtvi.IsSelected = true;
                                     LargeTxt.SelectAll();
                                     LargeTxt.Selection.Text = "";
                                     TextRange t = new TextRange(LargeTxt.Document.ContentStart,
@@ -308,6 +309,7 @@ namespace NoteBock
                                         + Removefromdatestring(day.date) + ".rtf", FileMode.Create);
                                     t.Save(file, System.Windows.DataFormats.Rtf);
                                     file.Close();
+
                                     return;
                                     //stop iterating after adding the assignment
                                 }
@@ -382,6 +384,53 @@ namespace NoteBock
                     }
                 }
             }
+            else if (cur.Name.Contains("Notes_"))
+            {
+                LargeTxt.SelectAll();
+                LargeTxt.Selection.Text = "";
+                TextRange t = new TextRange(LargeTxt.Document.ContentStart,
+                                LargeTxt.Document.ContentEnd);
+                FileStream file = new FileStream(cur.Name + ".rtf", FileMode.Open);
+                t.Load(file, System.Windows.DataFormats.Rtf);
+                file.Close();
+            }
+            else if (cur.Name.Contains("sem_"))
+            {
+                for (int i = 0; i < Sems.Count; i++)
+                {
+                    Semester sem = (Semester)Sems[i];
+                    if (cur.Name.Contains(sem.Name))
+                    {
+                        if (sem.DueDates.Count > 0)
+                        {
+                            int closedues = 0;
+                            StringBuilder sb = new StringBuilder();
+                            for (int j = 0; j < sem.DueDates.Count; j=j+2 )
+                            {
+                                DateTime dt = (DateTime)sem.DueDates[j];
+                                DateTime current = DateTime.Today;
+                                for (int h = 0; h < 8; h++)
+                                {
+                                    DateTime tempcur = current.AddDays(h);
+                                    if (tempcur == dt)
+                                    {
+                                        string temp = (string)sem.DueDates[j+1];
+                                        sb.Append(dt.ToShortDateString() + ": " + temp);
+                                        sb.Append(Environment.NewLine);
+                                        closedues++;
+                                    }
+                                }
+                            }
+                            if (closedues > 0)
+                            {
+                                SmallTxt.Text = "";
+                                SmallTxt.Text = sb.ToString();
+                            }
+
+                        }
+                    }
+                }
+            }
 
         }
 
@@ -449,7 +498,7 @@ namespace NoteBock
                     this.BegNts.IsEnabled = true;
                     this.AddAss.IsEnabled = true;
                 }
-                if (cur.Name.StartsWith("notes"))
+                if (cur.Name.StartsWith("Notes"))
                 {
                     this.SaveNts.IsEnabled = true;
                 }

@@ -30,7 +30,7 @@
         </Menu>
         <TreeView x:Name="Tree" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="181" Margin="10,27,0,124" MouseLeftButtonUp="TreeClicked">
         </TreeView>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="109" TextWrapping="Wrap" Text="Upcoming Assignments/Exams listed here" VerticalAlignment="Bottom" Width="181" Margin="10,0,0,10"/>
+        <TextBox x:Name="SmallTxt" IsReadOnly="True" HorizontalAlignment="Left" Height="109" TextWrapping="Wrap" Text="Upcoming Assignments/Exams listed here" VerticalAlignment="Bottom" Width="181" Margin="10,0,0,10"/>
         <RichTextBox x:Name="LargeTxt" Margin="196,26,10,11" HorizontalScrollBarVisibility="Disabled">
             <FlowDocument/>
         </RichTextBox>
