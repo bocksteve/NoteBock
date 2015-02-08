@@ -29,5 +29,11 @@ namespace NoteBock
         {
 
         }
+
+        private void CrtSemClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("New");
+            Tree.Items.Add(new MenuItem() { Header = "TEST" });
+        }
     }
 }
