@@ -9,34 +9,27 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Menu HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top">
+        <Menu MenuItem.SubmenuOpened="OnSubmenuOpened" HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top">
             <MenuItem x:Name="MainMenu" Header="Menu" Click="MainMenu_Click">
-                <MenuItem x:Name="CrtSem" Header="Create Semester" Click="CrtSemClick"/>
-                <MenuItem x:Name="LoadSem" Header="Load Semester"/>
+                <MenuItem x:Name="AddSem" Header="Add Semester" Click="AddSemClick"/>
+                <MenuItem x:Name="RemSem" Header="Remove Semester" Click="RemSemClick"/>
                 <Separator/>
-                <MenuItem x:Name="AddCls" Header="Add Class"/>
-                <MenuItem x:Name="RemCls" Header="Remove Class"/>
+                <MenuItem x:Name="AddCls" Header="Add Class" Click="AddClsClick"/>
+                <MenuItem x:Name="RemCls" Header="Remove Class" Click="RemClsClick"/>
                 <Separator/>
-                <MenuItem x:Name="AddAss" Header="Add Assignment/Exam"/>
-                <MenuItem x:Name="RemAss" Header="Remove Assignment/Exam"/>
+                <MenuItem x:Name="AddAss" Header="Add Assignment/Exam" Click="AddAssClick"/>
+                <MenuItem x:Name="RemAss" Header="Remove Assignment/Exam" Click="RemAssClick"/>
                 <Separator/>
-                <MenuItem x:Name="BegNts" Header="Begin Notes"/>
-                <MenuItem x:Name="SrchNts" Header="Search Notes"/>
+                <MenuItem x:Name="BegNts" Header="Begin Notes" Click="BegNtsClick"/>
+                <MenuItem x:Name="SrchNts" Header="Search Notes" Click="SrchNtsClick"/>
                 <Separator/>
-                <MenuItem x:Name="Save" Header="Save"/>
-                <MenuItem x:Name="Exit" Header="Exit"/>
+                <MenuItem x:Name="Save" Header="Save" Click="SaveClick"/>
+                <MenuItem x:Name="Exit" Header="Exit" Click="ExitClick"/>
             </MenuItem>
         </Menu>
         <TreeView x:Name="Tree" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="181" Margin="10,27,0,124">
-            <TreeViewItem Header="Level 1" IsExpanded="True" Height="86">
-                <TreeViewItem Header="Level 2.1" />
-                <TreeViewItem Header="Level 2.2" IsExpanded="True">
-                    <TreeViewItem Header="Level 3.1" />
-                    <TreeViewItem Header="Level 3.2" />
-                </TreeViewItem>
-            </TreeViewItem>
         </TreeView>
-        <TextBox HorizontalAlignment="Left" Height="109" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="181" Margin="10,0,0,10"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="109" TextWrapping="Wrap" Text="Upcoming Assignments/Exams listed here" VerticalAlignment="Bottom" Width="181" Margin="10,0,0,10"/>
         <RichTextBox Margin="196,26,10,11" HorizontalScrollBarVisibility="Disabled">
             <FlowDocument>
                 <Paragraph>
