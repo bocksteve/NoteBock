@@ -29,9 +29,9 @@ namespace NoteBock
             InitializeComponent();
         }
 
-        public string Removefromdatestring(string temp)
+        public string CleanString(string temp)
         {
-            //used to remove "/" from date strings so we can use them for treeviewitem names
+            //used to remove remove characters of a string that are not excepted for TreeViewItem names
             for (int i = 0; i < temp.Length; i++)
             {
                 if ((int)temp[i] < 48 && 31 < (int)temp[i])
@@ -59,7 +59,7 @@ namespace NoteBock
             if (newWindow.closedwithok == true)
             {
                 //Create the tree item and add it
-                TreeViewItem newS = new TreeViewItem() { Header = newWindow.SemName, Name = "sem_" + Removefromdatestring(newWindow.SemName) };
+                TreeViewItem newS = new TreeViewItem() { Header = newWindow.SemName, Name = "sem_" + CleanString(newWindow.SemName) };
                 Tree.Items.Add(newS);
 
                 //Create Semester object, add it to the arraylist
@@ -131,9 +131,9 @@ namespace NoteBock
                 if (cur.Name.Contains(sem.Name))
                 {
                     //Found semester, add the new class
-                    TreeViewItem newCls = new TreeViewItem() { Header = newWindow.ClsName, Name = "cls_" + Removefromdatestring(newWindow.ClsName) + "_" + sem.Name };
+                    TreeViewItem newCls = new TreeViewItem() { Header = newWindow.ClsName, Name = "cls_" + CleanString(newWindow.ClsName) + "_" + sem.Name };
                     cur.Items.Add(newCls);
-                    Class1 newcls = new Class1(newWindow.ClsName);
+                    SchoolClass newcls = new SchoolClass(newWindow.ClsName);
                     sem.AddClass(newcls);
                     for (int j = 0; j < sem.weeks; j++)
                     {
@@ -203,7 +203,7 @@ namespace NoteBock
                     //Found correct semester, now find correct class
                     for (int j = 0; j < sem.classes.Count; j++)
                     {
-                        Class1 cls = (Class1)sem.classes[i];
+                        SchoolClass cls = (SchoolClass)sem.classes[i];
                         if (cur.Name.Contains(cls.Name))
                         {
                             sem.classes.Remove(cls);
@@ -241,17 +241,17 @@ namespace NoteBock
                     //Find class of cur
                     for (int j = 0; j < sem.classes.Count; j++)
                     {
-                        Class1 cls = (Class1)sem.classes[j];
+                        SchoolClass cls = (SchoolClass)sem.classes[j];
                         if (cur.Name.Contains(cls.Name))
                         {
                             //cur is a day, find it
                             for (int h = 0; h < cls.days.Count; h++)
                             {
                                 Day day = (Day)cls.days[h];
-                                if (Removefromdatestring(cur.Header.ToString()) == day.date)
+                                if (CleanString(cur.Header.ToString()) == day.date)
                                 {
                                     cur.Items.Add(new TreeViewItem() { Header = newWindow.AssName, Name = "ass_" + sem.Name + 
-                                        "_" + cls.Name + "_" + Removefromdatestring(day.date)});
+                                        "_" + cls.Name + "_" + CleanString(day.date)});
                                     day.AddAss(newWindow.AssName + ": " + newWindow.AssDesc);
                                     sem.DueDates.Add(day.dt);
                                     sem.DueDates.Add(newWindow.AssName);
@@ -283,20 +283,20 @@ namespace NoteBock
                     //Find class of cur
                     for (int j = 0; j < sem.classes.Count; j++)
                     {
-                        Class1 cls = (Class1)sem.classes[j];
+                        SchoolClass cls = (SchoolClass)sem.classes[j];
                         if (cur.Name.Contains(cls.Name))
                         {
                             //cur is a day, find it
                             for (int h = 0; h < cls.days.Count; h++)
                             {
                                 Day day = (Day)cls.days[h];
-                                if (Removefromdatestring(cur.Header.ToString()) == day.date)
+                                if (CleanString(cur.Header.ToString()) == day.date)
                                 {
                                     TreeViewItem newtvi = new TreeViewItem()
                                     {
                                         Header = "Notes",
                                         Name = "Notes_" + sem.Name +
-                                            "_" + cls.Name + "_" + Removefromdatestring(day.date)
+                                            "_" + cls.Name + "_" + CleanString(day.date)
                                     };
                                     cur.Items.Add(newtvi);
                                     cur.IsExpanded = true;
@@ -306,7 +306,7 @@ namespace NoteBock
                                     TextRange t = new TextRange(LargeTxt.Document.ContentStart,
                                         LargeTxt.Document.ContentEnd);
                                     FileStream file = new FileStream("Notes_" + sem.Name + "_" + cls.Name + "_" 
-                                        + Removefromdatestring(day.date) + ".rtf", FileMode.Create);
+                                        + CleanString(day.date) + ".rtf", FileMode.Create);
                                     t.Save(file, System.Windows.DataFormats.Rtf);
                                     file.Close();
 
@@ -354,7 +354,7 @@ namespace NoteBock
                         //Find class of cur
                         for (int j = 0; j < sem.classes.Count; j++)
                         {
-                            Class1 cls = (Class1)sem.classes[j];
+                            SchoolClass cls = (SchoolClass)sem.classes[j];
                             if (cur.Name.Contains(cls.Name))
                             {
                                 //cur is a day, find it
@@ -447,7 +447,7 @@ namespace NoteBock
                     //Find class of cur
                     for (int j = 0; j < sem.classes.Count; j++)
                     {
-                        Class1 cls = (Class1)sem.classes[j];
+                        SchoolClass cls = (SchoolClass)sem.classes[j];
                         if (cur.Name.Contains(cls.Name))
                         {
                             //cur is a day, find it
@@ -459,7 +459,7 @@ namespace NoteBock
                                     TextRange t = new TextRange(LargeTxt.Document.ContentStart,
                                         LargeTxt.Document.ContentEnd);
                                     FileStream file = new FileStream("Notes_" + sem.Name + "_" + cls.Name + "_" 
-                                        + Removefromdatestring(day.date) + ".rtf", FileMode.Create);
+                                        + CleanString(day.date) + ".rtf", FileMode.Create);
                                     t.Save(file, System.Windows.DataFormats.Rtf);
                                     file.Close();
                                     return;

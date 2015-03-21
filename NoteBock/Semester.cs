@@ -48,7 +48,7 @@ namespace NoteBock
             weeks = (numdays + 1) / 7;
         }
 
-        public void AddClass(Class1 Class)
+        public void AddClass(SchoolClass Class)
         {
             classes.Add(Class);
         }
@@ -57,7 +57,7 @@ namespace NoteBock
         {
             for (int i = 0; i < classes.Count; i++)
             {
-                Class1 cls = (Class1)classes[i];
+                SchoolClass cls = (SchoolClass)classes[i];
                 if (cls.Name == Name)
                 {
                     classes.Remove(cls);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NoteBock
 {
     //Class for actual school class, not to get the two mixed up
-    class Class1
+    class SchoolClass
     {
         public string Removefromdatestring(string temp)
         {
@@ -32,7 +32,7 @@ namespace NoteBock
             days.Add(day);
         }
 
-        public Class1(string Namec)
+        public SchoolClass(string Namec)
         {
             Name = Removefromdatestring(Namec);
         }

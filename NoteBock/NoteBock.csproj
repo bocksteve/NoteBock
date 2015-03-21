@@ -59,7 +59,7 @@
     <Compile Include="AddCls.xaml.cs">
       <DependentUpon>AddCls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="SchoolClass.cs" />
     <Compile Include="Day.cs" />
     <Compile Include="Semester.cs" />
     <Compile Include="SemInput.xaml.cs">
