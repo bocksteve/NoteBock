@@ -39,7 +39,7 @@ namespace NoteBock
 
         public bool closedwithok = false;
 
-        public void Closing()
+        public new void Closing()
         {
             closedwithok = true;
             this.Close();

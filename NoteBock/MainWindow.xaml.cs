@@ -31,7 +31,7 @@ namespace NoteBock
 
         public string CleanString(string temp)
         {
-            //used to remove remove characters of a string that are not excepted for TreeViewItem names
+            //used to remove characters of a string that are not excepted for TreeViewItem names
             for (int i = 0; i < temp.Length; i++)
             {
                 if ((int)temp[i] < 48 && 31 < (int)temp[i])
@@ -144,31 +144,31 @@ namespace NoteBock
                         for (int h = 0; h < newWindow.Days.Count; h++)
                         {
                             //Add each day for every week
-                            if (newWindow.Days[h] == "Monday")
+                            if ((string)newWindow.Days[h] == "Monday")
                             {
                                 DateTime dt = sem.Start.AddDays(1+(j*7));
                                 week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
                                 newcls.AddDay(new Day(dt));
                             }
-                            else if (newWindow.Days[h] == "Tuesday")
+                            else if ((string)newWindow.Days[h] == "Tuesday")
                             {
                                 DateTime dt = sem.Start.AddDays(2 + (j * 7));
                                 week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
                                 newcls.AddDay(new Day(dt));
                             }
-                            else if (newWindow.Days[h] == "Wednesday")
+                            else if ((string)newWindow.Days[h] == "Wednesday")
                             {
                                 DateTime dt = sem.Start.AddDays(3 + (j * 7));
                                 week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
                                 newcls.AddDay(new Day(dt));
                             }
-                            else if (newWindow.Days[h] == "Thursday")
+                            else if ((string)newWindow.Days[h] == "Thursday")
                             {
                                 DateTime dt = sem.Start.AddDays(4 + (j * 7));
                                 week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name});
                                 newcls.AddDay(new Day(dt));
                             }
-                            else if (newWindow.Days[h] == "Friday")
+                            else if ((string)newWindow.Days[h] == "Friday")
                             {
                                 DateTime dt = sem.Start.AddDays(5 + (j * 7));
                                 week.Items.Add(new TreeViewItem() { Header = (dt.ToShortDateString()), Name = "day_" + sem.Name + "_" + newcls.Name });
