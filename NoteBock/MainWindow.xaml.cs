@@ -219,9 +219,9 @@ namespace NoteBock
 
         }
 
-        private void AddAssClick(object sender, RoutedEventArgs e)
+        private void AddAsgClick(object sender, RoutedEventArgs e)
         {
-            var newWindow = new AddAss();
+            var newWindow = new AddAsg();
             newWindow.ShowDialog();
 
             //If it wasn't closed with ok, just return and do nothing
@@ -250,11 +250,11 @@ namespace NoteBock
                                 Day day = (Day)cls.days[h];
                                 if (CleanString(cur.Header.ToString()) == day.date)
                                 {
-                                    cur.Items.Add(new TreeViewItem() { Header = newWindow.AssName, Name = "ass_" + sem.Name + 
+                                    cur.Items.Add(new TreeViewItem() { Header = newWindow.AsgName, Name = "asg_" + sem.Name + 
                                         "_" + cls.Name + "_" + CleanString(day.date)});
-                                    day.AddAss(newWindow.AssName + ": " + newWindow.AssDesc);
+                                    day.AddAsg(newWindow.AsgName + ": " + newWindow.AsgDesc);
                                     sem.DueDates.Add(day.dt);
-                                    sem.DueDates.Add(newWindow.AssName);
+                                    sem.DueDates.Add(newWindow.AsgName);
                                     return;
                                     //stop iterating after adding the assignment
                                 }
@@ -265,7 +265,7 @@ namespace NoteBock
             }
         }
 
-        private void RemAssClick(object sender, RoutedEventArgs e)
+        private void RemAsgClick(object sender, RoutedEventArgs e)
         {
 
         }
@@ -342,7 +342,7 @@ namespace NoteBock
             {
                 return;
             }
-            if (cur.Name.Contains("ass_"))
+            if (cur.Name.Contains("asg_"))
             {
                 //Clicked on an assignment, display the description!
                 for (int i = 0; i < Sems.Count; i++)
@@ -477,8 +477,8 @@ namespace NoteBock
             this.AddCls.IsEnabled = false;
             this.RemSem.IsEnabled = false;
             this.RemCls.IsEnabled = false;
-            this.AddAss.IsEnabled = false;
-            this.RemAss.IsEnabled = false;
+            this.AddAsg.IsEnabled = false;
+            this.RemAsg.IsEnabled = false;
             this.BegNts.IsEnabled = false;
             this.SaveNts.IsEnabled = false;
             TreeViewItem cur = (TreeViewItem)Tree.SelectedItem;
@@ -496,7 +496,7 @@ namespace NoteBock
                 if (cur.Name.StartsWith("day_"))
                 {
                     this.BegNts.IsEnabled = true;
-                    this.AddAss.IsEnabled = true;
+                    this.AddAsg.IsEnabled = true;
                 }
                 if (cur.Name.StartsWith("Notes"))
                 {

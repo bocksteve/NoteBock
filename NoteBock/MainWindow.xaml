@@ -17,8 +17,8 @@
                 <MenuItem x:Name="AddCls" Header="Add Class" Click="AddClsClick"/>
                 <MenuItem x:Name="RemCls" Header="Remove Class" Click="RemClsClick"/>
                 <Separator/>
-                <MenuItem x:Name="AddAss" Header="Add Assignment/Exam" Click="AddAssClick"/>
-                <MenuItem x:Name="RemAss" Header="Remove Assignment/Exam" Click="RemAssClick"/>
+                <MenuItem x:Name="AddAsg" Header="Add Assignment/Exam" Click="AddAsgClick"/>
+                <MenuItem x:Name="RemAsg" Header="Remove Assignment/Exam" Click="RemAsgClick"/>
                 <Separator/>
                 <MenuItem x:Name="BegNts" Header="Begin Notes" Click="BegNtsClick"/>
                 <MenuItem x:Name="SaveNts" Header="Save Notes" Click="SaveNtsClick"/>

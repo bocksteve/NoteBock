@@ -53,8 +53,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddAss.xaml.cs">
-      <DependentUpon>AddAss.xaml</DependentUpon>
+    <Compile Include="AddAsg.xaml.cs">
+      <DependentUpon>AddAsg.xaml</DependentUpon>
     </Compile>
     <Compile Include="AddCls.xaml.cs">
       <DependentUpon>AddCls.xaml</DependentUpon>
@@ -65,7 +65,7 @@
     <Compile Include="SemInput.xaml.cs">
       <DependentUpon>SemInput.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddAss.xaml">
+    <Page Include="AddAsg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

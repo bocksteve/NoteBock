@@ -28,15 +28,15 @@ namespace NoteBock
             date = temp;
         }
 
-        public void AddAss(string AssDesc)
+        public void AddAsg(string AsgDesc)
         {
-            Assigns.Add(AssDesc);
+            Assigns.Add(AsgDesc);
         }
 
-        public void RemAss(string AssDesc)
+        public void RemAsg(string AsgDesc)
         {
             for (int i = 0; i < Assigns.Count; i++)
-                if (AssDesc == (string)Assigns[i])
+                if (AsgDesc == (string)Assigns[i])
                 {
                     Assigns.Remove(Assigns[i]);
                 }

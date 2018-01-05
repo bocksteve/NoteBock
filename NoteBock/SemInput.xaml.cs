@@ -63,8 +63,21 @@ namespace NoteBock
 
         private void OkBtn_Click(object sender, RoutedEventArgs e)
         {
-            _startdate = (DateTime)Start_Date.SelectedDate;
-            _enddate = (DateTime)End_Date.SelectedDate;
+            if (Start_Date.SelectedDate != null) { _startdate = (DateTime)Start_Date.SelectedDate; }
+            else
+            {
+                MessageBox.Show("Need a start date");
+                return;
+            }
+
+            if (End_Date.SelectedDate != null) { _enddate = (DateTime)End_Date.SelectedDate; }
+            else
+            {
+                MessageBox.Show("Need an end date");
+                return;
+            }
+
+
             _semname = SemesName.Text;
             if (_semname == "")
             {
